@@ -1,5 +1,5 @@
 'use client'
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
 
 const GlobalContext=createContext();
 const baseUrl='https://api.jikan.moe/v4'
@@ -17,8 +17,8 @@ const reducer = (state, action) => {
             return {...state, loading: true}
         case GET_POPULAR_ANIME:
             return {...state, popularAnime: action.payload, loading: false}
-        // case SEARCH:
-        //     return {...state, searchResults: action.payload, loading: false}
+        case SEARCH:
+            return {...state, searchResults: action.payload, loading: false}
         // case GET_UPCOMING_ANIME:
         //     return {...state, upcomingAnime: action.payload, loading: false}
         // case GET_AIRING_ANIME:
@@ -41,19 +41,47 @@ export const GlobalContextProvider=({children})=>{
         loading: false,
     }
     const [state,dispatch]=useReducer(reducer,intialState);
-
+    const [search,setSearch]=useState('')
+    const handlechange=(e)=>{
+      setSearch(e.target.value)
+      if(e.target.value==='')
+      {
+        state.isSearch=false
+      }
+    }
+    const handlesubmit=(e)=>{
+      e.preventDeafult();
+      if(search)
+      {
+        searchanime(search)
+        state.isSearch=true
+      }
+      else{
+        state.isSearch=false
+        alert("enter a valid search term")
+      }
+    }
     const getPopularAnime = async () => {
         dispatch({type: LOADING})
         const response = await fetch(`${baseUrl}/top/anime?filter=bypopularity`);
         const data = await response.json();
         dispatch({type: GET_POPULAR_ANIME, payload: data.data})
     }
+
+        const searchanime=async(anime)=>{
+            dispatch({type:LOADING})
+            const response = await fetch(`https://api.jikan.moe/v4/anime?q=${anime}&order_by=popularity&sort=asc&sfw`);
+            const data = await response.json();
+            dispatch({type:SEARCH, payload: data.data})
+        }
+
     useEffect(()=>{
 getPopularAnime()
     },[])
     return (
     <GlobalContext.Provider value={{
-        ...state
+        ...state,handlechange,handlesubmit,
+        searchanime,search
     }}>
         {children}
     </GlobalContext.Provider>

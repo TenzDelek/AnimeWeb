@@ -1,5 +1,6 @@
 'use client'
-import Popular from "./Components/Popular";
+import Homepage from "./Components/Homepage";
+
 
 
 
@@ -7,7 +8,7 @@ export default function Home() {
 
   return (
     <>
-    <Popular/>
+    <Homepage/>
     </>
   
   );
