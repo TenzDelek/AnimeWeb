@@ -3,12 +3,12 @@ import React from 'react'
 import { useGlobalContext } from '../Context/global'
 import Link from 'next/link'
 
-const Popular = ({rendered}) => {
- const {popularAnime, isSearch,searchResults}= useGlobalContext()
+const Airing = ({rendered}) => {
+ const {airingAnime, isSearch,searchResults}= useGlobalContext()
   const conditional=()=>{
-    if(!isSearch && rendered=='popular')
+    if(!isSearch && rendered=='airing')
     {
-      return popularAnime.map((anime)=>{
+      return airingAnime.map((anime)=>{
         return <Link href={`/Anime/${anime.mal_id}`} key={anime.mal_id}>
             <img className=' w-full h-full object-cover rounded-xl' src={anime.images.jpg.large_image_url} />
 
@@ -32,4 +32,4 @@ const Popular = ({rendered}) => {
   )
 }
 
-export default Popular
+export default Airing
