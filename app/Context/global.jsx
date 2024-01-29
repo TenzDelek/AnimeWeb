@@ -80,7 +80,6 @@ export const GlobalContextProvider=({children})=>{
             const data = await response.json();
             dispatch({type:SEARCH, payload: data.data})
     }
- 
     const getairinganime=async()=>{
             dispatch({type: LOADING})
             const response = await fetch(`${baseUrl}/top/anime?filter=airing`);
