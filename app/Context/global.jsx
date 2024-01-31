@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useReducer, useState } fro
 
 const GlobalContext=createContext();
 const baseUrl='https://api.jikan.moe/v4'
-
+//the base url
 const LOADING = "LOADING";
 const SEARCH = "SEARCH";
 const GET_POPULAR_ANIME = "GET_POPULAR_ANIME";
